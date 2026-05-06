@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Revival - AI Photo Video Generation API</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            color: #a0a0a0;
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+        }
+        .endpoint {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .endpoint h2 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #667eea;
+        }
+        .method {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-right: 10px;
+        }
+        .get { background: #61affe; color: #fff; }
+        .post { background: #49cc90; color: #fff; }
+        .path {
+            font-family: 'Courier New', monospace;
+            color: #e0e0e0;
+        }
+        .description {
+            color: #a0a0a0;
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+        .params {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+        }
+        .param {
+            display: flex;
+            margin-bottom: 8px;
+        }
+        .param-name {
+            font-family: monospace;
+            color: #49cc90;
+            min-width: 150px;
+        }
+        .param-desc {
+            color: #a0a0a0;
+        }
+        code {
+            background: rgba(0,0,0,0.3);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-top: 10px;
+        }
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(73, 204, 144, 0.2);
+            border-radius: 8px;
+            border: 1px solid #49cc90;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Time Revival API</h1>
+        <p class="subtitle">AI Photo Video Generation Backend Service</p>
+
+        <div class="status">
+            <strong>API Status:</strong> <span style="color: #49cc90;">Healthy</span><br>
+            <small>Version 1.0.0 | All systems operational</small>
+        </div>
+
+        <h2 style="margin-top: 40px; margin-bottom: 20px;">API Endpoints</h2>
+
+        <div class="endpoint">
+            <h2><span class="method get">GET</span> <span class="path">/api/health</span></h2>
+            <p class="description">Health check endpoint. Returns service status, available motion modes, styles, and configuration limits.</p>
+            <pre>curl http://localhost:5000/api/health</pre>
+        </div>
+
+        <div class="endpoint">
+            <h2><span class="method post">POST</span> <span class="path">/api/generate</span></h2>
+            <p class="description">Generate a dynamic video from an uploaded image. Supports multipart/form-data or JSON with image_url.</p>
+            <div class="params">
+                <strong>Parameters:</strong>
+                <div class="param"><span class="param-name">image</span><span class="param-desc">Image file (multipart/form-data)</span></div>
+                <div class="param"><span class="param-name">motion_mode</span><span class="param-desc">Motion effect (default: breathing)</span></div>
+                <div class="param"><span class="param-name">style</span><span class="param-desc">Visual style (default: warm_memories)</span></div>
+                <div class="param"><span class="param-name">duration</span><span class="param-desc">Video duration in seconds (default: 5, max: 30)</span></div>
+                <div class="param"><span class="param-name">fps</span><span class="param-desc">Frames per second (default: 30)</span></div>
+                <div class="param"><span class="param-name">resolution</span><span class="param-desc">WIDTHxHEIGHT (default: 1280x720)</span></div>
+                <div class="param"><span class="param-name">intensity</span><span class="param-desc">Effect intensity 0.0-1.0 (default: 0.5)</span></div>
+            </div>
+            <pre>curl -X POST http://localhost:5000/api/generate \
+  -F "image=@photo.jpg" \
+  -F "motion_mode=breathing" \
+  -F "style=warm_memories" \
+  -F "duration=5"</pre>
+        </div>
+
+        <div class="endpoint">
+            <h2><span class="method get">GET</span> <span class="path">/api/status/&lt;task_id&gt;</span></h2>
+            <p class="description">Check the status of a video generation task. Returns progress and result when completed.</p>
+            <pre>curl http://localhost:5000/api/status/[task_id]</pre>
+        </div>
+
+        <div class="endpoint">
+            <h2><span class="method get">GET</span> <span class="path">/api/video/&lt;task_id&gt;</span></h2>
+            <p class="description">Download the generated video file.</p>
+            <pre>curl -O http://localhost:5000/api/video/[task_id]</pre>
+        </div>
+
+        <div class="endpoint">
+            <h2><span class="method get">GET</span> <span class="path">/api/motions</span></h2>
+            <p class="description">Get list of available motion modes.</p>
+        </div>
+
+        <div class="endpoint">
+            <h2><span class="method get">GET</span> <span class="path">/api/styles</span></h2>
+            <p class="description">Get list of available video styles.</p>
+        </div>
+
+        <div class="endpoint">
+            <h2><span class="method post">POST</span> <span class="path">/api/preview</span></h2>
+            <p class="description">Generate a quick 3-second preview video for testing.</p>
+        </div>
+
+        <h2 style="margin-top: 40px; margin-bottom: 20px;">Motion Modes</h2>
+        <div class="endpoint">
+            <p class="description">
+                breathing, swing, pan, zoom, shake, wave, pulse, float, rotation, ken_burns
+            </p>
+        </div>
+
+        <h2 style="margin-top: 40px; margin-bottom: 20px;">Video Styles</h2>
+        <div class="endpoint">
+            <p class="description">
+                original, warm_memories, cool_vintage, black_white, sepia, cinematic, dreamy, vivid, dramatic, soft_focus
+            </p>
+        </div>
+
+        <footer style="margin-top: 60px; text-align: center; color: #666;">
+            <p>Time Revival - AI Photo Video Generation System</p>
+        </footer>
+    </div>
+</body>
+</html>
