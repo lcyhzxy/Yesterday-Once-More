@@ -1,17 +1,12 @@
-# Time Revival Backend - Railway 部署配置
-
-# Railway 部署配置
-# 此文件用于 Railway.app 平台自动部署
-
-# Railway会自动检测Python应用
-# 请在 Railway 控制台设置环境变量
-
-# 必要环境变量（可选）
-# FLASK_ENV=production
-# FLASK_DEBUG=false
-
-# 端口 Railway 会自动设置
-# PORT=5000
-
-# 文件上传限制（字节）
-MAX_CONTENT_LENGTH=52428800
+﻿{
+  "build": {
+    "builder": "python",
+    "config": {
+      "pythonVersion": "3.11"
+    }
+  },
+  "deploy": {
+    "startCommand": "gunicorn app:app --bind 0.0.0.0:\ --workers 2",
+    "healthCheckPath": "/api/health"
+  }
+}
